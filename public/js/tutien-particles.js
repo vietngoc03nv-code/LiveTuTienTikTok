@@ -43,15 +43,16 @@ class TuTienParticleEngine {
 
   initBackgroundParticles() {
     this.particles = [];
+    const diHoaColors = ['#00f5d4', '#00bbf9', '#ffd166', '#ff4757', '#c77dff'];
     for (let i = 0; i < this.maxParticles; i++) {
       this.particles.push({
         x: Math.random() * this.width,
         y: Math.random() * this.height,
-        radius: Math.random() * 2.5 + 0.8,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: -Math.random() * 0.8 - 0.2, // Bay lên trời như tiên khí
-        alpha: Math.random() * 0.7 + 0.2,
-        color: Math.random() > 0.4 ? '#f6c85f' : (Math.random() > 0.5 ? '#38ef7d' : '#00d2ff')
+        radius: Math.random() * 2.8 + 0.8,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: -Math.random() * 1.0 - 0.3, // Dị hỏa & Tiên khí bay bốc lên cao
+        alpha: Math.random() * 0.8 + 0.2,
+        color: diHoaColors[Math.floor(Math.random() * diHoaColors.length)]
       });
     }
   }

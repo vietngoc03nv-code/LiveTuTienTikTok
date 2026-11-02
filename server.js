@@ -86,10 +86,10 @@ function getNextRealm(currentLevel) {
 // 2. YÊU THÚ THẾ GIỚI (WORLD BOSS SYSTEM)
 // ============================================================================
 const BOSS_ROSTER = [
-  { id: 'fox',    name: 'Cửu Vĩ Hỏa Hồ',      maxHp: 5000,   avatar: '🦊', desc: 'Hồ yêu ngàn năm nơi U Minh cốc' },
-  { id: 'snake',  name: 'Thôn Thiên Cự Mãng',  maxHp: 15000,  avatar: '🐍', desc: 'Mãng xà khổng lồ nuốt chửng linh mạch' },
-  { id: 'dragon', name: 'Hắc Ám Ma Long',     maxHp: 40000,  avatar: '🐉', desc: 'Ác long thức tỉnh từ thời Thái Cổ' },
-  { id: 'qilin',  name: 'Huyết Kỳ Lân',       maxHp: 100000, avatar: '🦁', desc: 'Thần thú đọa ma gây họa nhân gian' }
+  { id: 'fox',    name: 'Cửu Vĩ Hỏa Hồ (Dị Hỏa Thú)',       maxHp: 5000,   avatar: '🦊', image: '/assets/boss-fox.jpg', desc: 'Hồ yêu ngàn năm nơi U Minh cốc' },
+  { id: 'snake',  name: 'Thất Thải Thôn Thiên Mãng',        maxHp: 15000,  avatar: '🐍', image: '/assets/boss-fox.jpg', desc: 'Thần thú Viễn Cổ thức tỉnh' },
+  { id: 'dragon', name: 'Thái Hư Hắc Long (Đấu Phá)',       maxHp: 40000,  avatar: '🐉', image: '/assets/boss-fox.jpg', desc: 'Cổ long bá chủ hư không' },
+  { id: 'qilin',  name: 'Cổ Thần Ma Tướng (Tiên Nghịch)',   maxHp: 100000, avatar: '🦁', image: '/assets/boss-fox.jpg', desc: 'Ma tướng thời Thái Cổ nghịch thiên' }
 ];
 
 // ============================================================================
@@ -105,6 +105,7 @@ const DEFAULT_STATE = {
     maxHp: BOSS_ROSTER[0].maxHp,
     hp: BOSS_ROSTER[0].maxHp,
     avatar: BOSS_ROSTER[0].avatar,
+    image: BOSS_ROSTER[0].image,
     defeatedCount: 0
   },
   cultivators: {},
@@ -530,6 +531,7 @@ const CultivationActions = {
       state.boss.maxHp = nextBoss.maxHp + (state.boss.defeatedCount * 5000);
       state.boss.hp = state.boss.maxHp;
       state.boss.avatar = nextBoss.avatar;
+      state.boss.image = nextBoss.image || '/assets/boss-fox.jpg';
 
       // Thưởng lớn cho người kết liễu
       cult.exp += 1500;
@@ -802,12 +804,14 @@ async function connectTikTokLive(channelName) {
 // 7. AUTO-SIMULATION ENGINE (CHẾ ĐỘ TỰ ĐỘNG GIẢ LẬP ĐẠO HỮU VÀO ĐỘNG PHỦ)
 // ============================================================================
 const SIM_CULTIVATORS = [
-  { user: 'Hàn Lập', uniqueId: 'hanlap_phamnhan', comment: 'Tại hạ đến cầu cơ duyên đột phá' },
-  { user: 'Bạch Tiểu Thuần', uniqueId: 'bachtieuthuan', comment: 'Sợ chết quá, mau trảm yêu thú thôi' },
-  { user: 'Tiêu Viêm', uniqueId: 'tieuviem_viemde', comment: 'Ba mươi năm hà đông, ba mươi năm hà tây' },
-  { user: 'Diệp Phàm', uniqueId: 'dieppham_hoangthe', comment: 'Ta vì Thiên Đế, đương trấn áp tất cả thế gian địch' },
-  { user: 'Thạch Hạo', uniqueId: 'thachhao_hoang', comment: 'Một hạt bụi lấp biển, một cọng cỏ chém trăng sao' },
-  { user: 'Nam Cung Uyển', uniqueId: 'namcunguyen', comment: 'Nguyện cùng đạo hữu kết thành đạo lữ' }
+  { user: 'Vương Lâm (Tiên Nghịch)', uniqueId: 'wanglin_tiennghich', comment: 'Thuận vi phàm, nghịch vi tiên! Cực Cảnh Thần Niệm xuất thế!' },
+  { user: 'Tư Đồ Nam', uniqueId: 'tudonan_tiennghich', comment: 'Lão tử năm xưa tung hoành Tu Chân Giới ai dám cản đường!' },
+  { user: 'Tiêu Viêm (Đấu Phá)', uniqueId: 'tieuviem_viemde', comment: 'Ba mươi năm hà đông, ba mươi năm hà tây! Phật Nộ Hỏa Liên!' },
+  { user: 'Dược Lão', uniqueId: 'duoclao_daupha', comment: 'Để vi sư trợ lực cho ngươi mượn Cốt Lãnh Lôi Viêm trảm yêu thú!' },
+  { user: 'Mỹ Đỗ Toa Nữ Vương', uniqueId: 'medusa_queen', comment: 'Ai dám kinh động Thất Thải Thôn Thiên Mãng của bản vương!' },
+  { user: 'Hàn Lập (Phàm Nhân)', uniqueId: 'hanlap_phamnhan', comment: 'Giết người đoạt bảo, cẩn thận làm đầu, tại hạ chuồn trước!' },
+  { user: 'Bạch Tiểu Thuần', uniqueId: 'bachtieuthuan', comment: 'Sợ chết quá, mau trảm yêu thú đoạt bất tử đan thôi!' },
+  { user: 'Thạch Hạo (Hoang)', uniqueId: 'thachhao_hoang', comment: 'Một hạt bụi lấp biển, một cọng cỏ chém đứt trăng sao!' }
 ];
 
 let autoSimTimer = null;

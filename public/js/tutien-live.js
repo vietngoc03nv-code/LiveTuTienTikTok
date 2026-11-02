@@ -198,7 +198,13 @@
 
     // 2. Boss
     if (s.boss) {
-      document.getElementById('bossAvatar').textContent = s.boss.avatar || '🦊';
+      const bossImg = document.getElementById('bossAvatarImg');
+      if (bossImg && s.boss.image) {
+        bossImg.src = s.boss.image;
+      }
+      const oldAvatar = document.getElementById('bossAvatar');
+      if (oldAvatar) oldAvatar.textContent = s.boss.avatar || '🦊';
+
       document.getElementById('bossName').textContent = s.boss.name || 'Yêu Thú';
       document.getElementById('bossDefeatedCount').textContent = `Đã trảm: ${s.boss.defeatedCount || 0}`;
 

@@ -45,10 +45,11 @@ html, body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: radial-gradient(circle at 50% 25%, #182245 0%, #0c1126 50%, #050711 100%);
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.95);
-  border-left: 1px solid rgba(246, 200, 95, 0.15);
-  border-right: 1px solid rgba(246, 200, 95, 0.15);
+  background: radial-gradient(circle at 50% 25%, rgba(13, 19, 39, 0.4) 0%, rgba(5, 7, 17, 0.92) 100%),
+              url('/assets/donghua-bg.jpg') center top / cover no-repeat;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.98);
+  border-left: 1px solid rgba(246, 200, 95, 0.2);
+  border-right: 1px solid rgba(246, 200, 95, 0.2);
 }
 
 /* Background Particle Canvas */
@@ -208,9 +209,24 @@ html, body {
   gap: 12px;
 }
 
-.boss-avatar {
-  font-size: 32px;
-  filter: drop-shadow(0 0 10px rgba(255, 56, 56, 0.8));
+.boss-avatar-frame {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #ff4757;
+  box-shadow: 0 0 18px rgba(255, 71, 87, 0.75);
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.boss-avatar-3d {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   animation: floatBounce 3s infinite ease-in-out;
 }
 
@@ -319,16 +335,22 @@ html, body {
   animation: pulseLotus 3.5s ease-in-out infinite alternate;
 }
 
-.cultivator-avatar {
-  font-size: 96px;
-  filter: drop-shadow(0 0 25px rgba(246, 200, 95, 0.8));
+.cultivator-donghua-frame {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   animation: meditateFloat 4s ease-in-out infinite alternate;
 }
 
-.lotus-throne {
-  font-size: 58px;
-  margin-top: -30px;
-  filter: drop-shadow(0 0 15px rgba(56, 239, 125, 0.7));
+.cultivator-3d-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.75)) drop-shadow(0 0 50px rgba(246, 200, 95, 0.5));
 }
 
 /* Floating Realm Banner */
