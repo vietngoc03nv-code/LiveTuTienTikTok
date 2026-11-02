@@ -25,24 +25,30 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: var(--dark-bg);
+  background-color: #03050c;
   font-family: var(--font-body);
   color: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* 9:16 Canvas Wrapper for OBS */
+/* 9:16 Canvas Wrapper for OBS & TikTok Live */
 .canvas-wrapper {
   position: relative;
-  width: 100vw;
   height: 100vh;
+  width: min(100vw, calc(100vh * 9 / 16));
   max-width: 1080px;
   max-height: 1920px;
+  aspect-ratio: 9 / 16;
   margin: 0 auto;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   background: radial-gradient(circle at 50% 25%, #182245 0%, #0c1126 50%, #050711 100%);
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.95);
+  border-left: 1px solid rgba(246, 200, 95, 0.15);
+  border-right: 1px solid rgba(246, 200, 95, 0.15);
 }
 
 /* Background Particle Canvas */
