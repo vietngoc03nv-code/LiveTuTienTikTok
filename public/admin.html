@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bảng Điều Khiển — Tu Tiên Cửu Trọng Thiên</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;900&display=swap" />
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card-bg: #131d35;
+      --border: #24355a;
+      --gold: #f6c85f;
+      --green: #38ef7d;
+      --red: #ff4757;
+      --blue: #00d2ff;
+      --text: #f1f5f9;
+      --subtext: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Be Vietnam Pro', sans-serif;
+      padding: 24px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      font-size: 22px;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-links a {
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border: 1px solid var(--blue);
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .header-links a:hover {
+      background: var(--blue);
+      color: #0b1120;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .form-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      color: var(--subtext);
+      margin-bottom: 5px;
+    }
+    input, select, textarea {
+      width: 100%;
+      background: #090e1a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--gold);
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    button {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-primary { background: linear-gradient(135deg, #f6c85f, #e6a724); color: #0b1120; }
+    .btn-primary:hover { filter: brightness(1.1); }
+    .btn-danger { background: rgba(255, 71, 87, 0.2); color: #ff6b81; border: 1px solid rgba(255, 71, 87, 0.4); }
+    .btn-danger:hover { background: #ff4757; color: #fff; }
+    .btn-success { background: rgba(56, 239, 125, 0.2); color: #38ef7d; border: 1px solid rgba(56, 239, 125, 0.4); }
+    .btn-success:hover { background: #38ef7d; color: #0b1120; }
+    .btn-cyan { background: rgba(0, 210, 255, 0.2); color: #00d2ff; border: 1px solid rgba(0, 210, 255, 0.4); }
+    .btn-cyan:hover { background: #00d2ff; color: #0b1120; }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .status-connected { background: rgba(56, 239, 125, 0.15); color: var(--green); border: 1px solid var(--green); }
+    .status-disconnected { background: rgba(255, 71, 87, 0.15); color: var(--red); border: 1px solid var(--red); }
+    .status-connecting { background: rgba(246, 200, 95, 0.15); color: var(--gold); border: 1px solid var(--gold); }
+
+    .log-box {
+      background: #080c16;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      height: 180px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 12px;
+      color: #94a3b8;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .log-entry { line-height: 1.4; word-break: break-all; }
+    .log-time { color: var(--gold); margin-right: 6px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚔️ Tu Tiên Cửu Trọng Thiên — Bảng Điều Khiển Admin</h1>
+      <div class="header-links">
+        <a href="/" target="_blank">📺 Mở Màn Hình OBS (9:16)</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- 1. Cấu hình Kết Nối TikTok Live -->
+      <div class="card">
+        <div class="card-title">
+          <span>📡 Kết Nối TikTok Live</span>
+          <span id="ttStatusBadge" class="status-badge status-disconnected">Chưa kết nối</span>
+        </div>
+        <div class="form-group">
+          <label>Tài khoản TikTok Live (Username)</label>
+          <input type="text" id="ttUser" value="ngoc03nv" placeholder="VD: ngoc03nv" />
+        </div>
+        <div class="form-group">
+          <label>EulerStream Sign API Key</label>
+          <input type="password" id="ttApiKey" value="euler_NWE2ODQ0NDdiNWQ3NGI0OTRhNDVkMTViYzRjMjIxZjAzYTQxYWIyMDUyODkxZDQ3ZDdjNDQw" />
+        </div>
+        <div class="btn-group">
+          <button class="btn-primary" id="btnConnectLive">⚡ Kết Nối Phòng Live</button>
+          <button class="btn-danger" id="btnDisconnectLive">Ngắt Kết Nối</button>
+        </div>
+        <div style="margin-top: 12px; font-size: 12px; color: var(--subtext);">
+          Room ID: <span id="ttRoomId" style="color:#fff;">-</span> | Người xem: <span id="ttViewers" style="color:#fff;">0</span>
+        </div>
+      </div>
+
+      <!-- 2. Chế Độ Tự Động Giả Lập Đạo Hữu -->
+      <div class="card">
+        <div class="card-title">
+          <span>🤖 Tự Động Giả Lập (Auto-Simulation)</span>
+          <span id="simStatusBadge" class="status-badge status-disconnected">Tắt</span>
+        </div>
+        <p style="font-size: 12px; color: var(--subtext); margin-bottom: 14px;">
+          Tự động sinh các nhân vật tu tiên nổi tiếng (Hàn Lập, Bạch Tiểu Thuần, Tiêu Viêm...) vào động phủ thả tim, ngồi thiền, săn boss và đột phá đều đặn.
+        </p>
+        <div class="btn-group">
+          <button class="btn-success" id="btnStartSim">▶️ Bật Tự Động Giả Lập</button>
+          <button class="btn-danger" id="btnStopSim">⏹️ Tắt Giả Lập</button>
+        </div>
+      </div>
+
+      <!-- 3. Giả Lập Hành Động Thủ Công (Testing) -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-title">
+          <span>🎮 Kích Hoạt Hành Động Thử Nghiệm</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+          <div>
+            <label>Đạo Hữu Test</label>
+            <input type="text" id="testUser" value="Hàn Lập Chân Nhân" />
+          </div>
+          <div>
+            <label>Nội Dung Bình Luận Test</label>
+            <input type="text" id="testComment" value="Tại hạ đến trảm yêu thú đoạt bảo đan!" />
+          </div>
+        </div>
+
+        <div class="btn-group" style="margin-top: 14px; flex-wrap: wrap;">
+          <button class="btn-success" id="btnTestQi">✨ Thả Tim (+50 Linh Khí)</button>
+          <button class="btn-primary" id="btnTestMeditate">🧘 Ngồi Thiền (+120 Tu Vi)</button>
+          <button class="btn-cyan" id="btnTestBreak">⚡ Đột Phá Lôi Kiếp</button>
+          <button class="btn-danger" id="btnTestBoss">⚔️ Trảm Boss Yêu Thú</button>
+          <button class="btn-primary" id="btnTestGift">🎁 Dâng Tặng Tiên Dược (100 Xu)</button>
+          <button class="btn-cyan" id="btnTestChat">💬 Gửi Bình Luận</button>
+        </div>
+      </div>
+
+      <!-- 4. Kiểm Tra Giọng Đọc Chị Google (TTS Test) -->
+      <div class="card">
+        <div class="card-title">
+          <span>🔊 Thử Nghiệm Giọng Đọc Google Tiếng Việt</span>
+        </div>
+        <div class="form-group">
+          <label>Nội dung cần đọc</label>
+          <textarea id="ttsTextInput" rows="2">Chúc mừng đạo hữu độ kiếp thành công, đắc đạo phi thăng!</textarea>
+        </div>
+        <button class="btn-primary" id="btnSpeakTts">🗣️ Phát Giọng Đọc Ngay</button>
+      </div>
+
+      <!-- 5. Nhật Ký Kết Nối & Trạng Thái Trực Tuyến -->
+      <div class="card">
+        <div class="card-title">
+          <span>📋 Nhật Ký Hệ Thống JSON-RPC</span>
+          <button id="btnClearLog" style="flex:0; padding:4px 8px; font-size:11px; background:rgba(255,255,255,0.1); color:#fff;">Xóa</button>
+        </div>
+        <div id="logBox" class="log-box"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let ws = null;
+
+    function addLog(text) {
+      const box = document.getElementById('logBox');
+      const time = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = 'log-entry';
+      div.innerHTML = `<span class="log-time">[${time}]</span> ${text}`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    async function rpcCall(method, params = {}) {
+      try {
+        const resp = await fetch('/rpc', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jsonrpc: '2.0', id: Date.now(), method, params })
+        });
+        const data = await resp.json();
+        if (data.error) throw new Error(data.error.message);
+        addLog(`[RPC OK] ${method}`);
+        return data.result;
+      } catch (err) {
+        addLog(`[RPC LỖI] ${method}: ${err.message}`);
+        alert('Lỗi: ' + err.message);
+      }
+    }
+
+    function initWebSocket() {
+      const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      ws = new WebSocket(`${protocol}//${location.host}/ws`);
+
+      ws.onopen = () => addLog('Đã kết nối WebSocket Admin');
+      ws.onclose = () => {
+        addLog('Mất kết nối WebSocket, thử lại sau 3s...');
+        setTimeout(initWebSocket, 3000);
+      };
+      ws.onmessage = (event) => {
+        try {
+          const msg = JSON.parse(event.data);
+          if (msg.method === 'tutien.state') {
+            updateAdminState(msg.params);
+          } else if (msg.method === 'tutien.event') {
+            const e = msg.params?.event;
+            if (e) addLog(`[Event] ${e.type} từ ${e.user || 'Vô Danh'}`);
+            if (msg.params?.state) updateAdminState(msg.params.state);
+          }
+        } catch (_) {}
+      };
+    }
+
+    function updateAdminState(s) {
+      if (!s) return;
+      if (s.tiktok) {
+        const badge = document.getElementById('ttStatusBadge');
+        if (s.tiktok.connected) {
+          badge.className = 'status-badge status-connected';
+          badge.textContent = 'Đã kết nối @' + s.tiktok.username;
+        } else if (s.tiktok.connecting) {
+          badge.className = 'status-badge status-connecting';
+          badge.textContent = 'Đang kết nối...';
+        } else {
+          badge.className = 'status-badge status-disconnected';
+          badge.textContent = 'Chưa kết nối';
+        }
+        document.getElementById('ttRoomId').textContent = s.tiktok.roomId || '-';
+        document.getElementById('ttViewers').textContent = s.tiktok.viewerCount || '0';
+      }
+
+      if (s.settings) {
+        const simBadge = document.getElementById('simStatusBadge');
+        if (s.settings.autoSim) {
+          simBadge.className = 'status-badge status-connected';
+          simBadge.textContent = 'Đang chạy';
+        } else {
+          simBadge.className = 'status-badge status-disconnected';
+          simBadge.textContent = 'Tắt';
+        }
+      }
+    }
+
+    // Gắn sự kiện các nút
+    document.getElementById('btnConnectLive').onclick = () => {
+      const username = document.getElementById('ttUser').value.trim();
+      const apiKey = document.getElementById('ttApiKey').value.trim();
+      if (apiKey) {
+        rpcCall('tutien.setSignApiKey', { apiKey });
+      }
+      rpcCall('live.connect', { username });
+    };
+
+    document.getElementById('btnDisconnectLive').onclick = () => {
+      rpcCall('live.disconnect');
+    };
+
+    document.getElementById('btnStartSim').onclick = () => {
+      rpcCall('live.setAutoSim', { enabled: true });
+    };
+
+    document.getElementById('btnStopSim').onclick = () => {
+      rpcCall('live.setAutoSim', { enabled: false });
+    };
+
+    document.getElementById('btnTestQi').onclick = () => {
+      const user = document.getElementById('testUser').value.trim();
+      rpcCall('tutien.absorbQi', { user, count: 5 });
+    };
+
+    document.getElementById('btnTestMeditate').onclick = () => {
+      const user = document.getElementById('testUser').value.trim();
+      rpcCall('tutien.meditate', { user });
+    };
+
+    document.getElementById('btnTestBreak').onclick = () => {
+      const user = document.getElementById('testUser').value.trim();
+      rpcCall('tutien.breakthrough', { user });
+    };
+
+    document.getElementById('btnTestBoss').onclick = () => {
+      const user = document.getElementById('testUser').value.trim();
+      rpcCall('tutien.attackBoss', { user });
+    };
+
+    document.getElementById('btnTestGift').onclick = () => {
+      const user = document.getElementById('testUser').value.trim();
+      rpcCall('tutien.offerGift', { user, coins: 100, giftName: 'Cửu Chuyển Linh Đan' });
+    };
+
+    document.getElementById('btnTestChat').onclick = () => {
+      const user = document.getElementById('testUser').value.trim();
+      const comment = document.getElementById('testComment').value.trim();
+      rpcCall('tutien.chat', { user, comment });
+    };
+
+    document.getElementById('btnSpeakTts').onclick = () => {
+      const text = document.getElementById('ttsTextInput').value.trim();
+      rpcCall('tutien.speak', { text, broadcast: true });
+    };
+
+    document.getElementById('btnClearLog').onclick = () => {
+      document.getElementById('logBox').innerHTML = '';
+    };
+
+    initWebSocket();
+  </script>
+</body>
+</html>

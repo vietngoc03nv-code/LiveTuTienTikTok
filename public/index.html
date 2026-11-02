@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Tu Tiên Cửu Trọng Thiên — TikTok Live OBS</title>
+  <link rel="stylesheet" href="/css/tutien.css" />
+</head>
+<body>
+  <div class="canvas-wrapper">
+    <!-- Hiệu ứng nền Linh Khí & Lôi Đình -->
+    <canvas id="particlesCanvas"></canvas>
+    <canvas id="effectsCanvas"></canvas>
+    <div id="lightningFlash" class="lightning-flash"></div>
+
+    <!-- Thông báo Đột Phá & Đại Lễ Tiên Gia -->
+    <div id="celestialModal" class="celestial-modal">
+      <div id="modalIcon" class="modal-icon">🌟</div>
+      <div id="modalTitle" class="modal-title">ĐỘT PHÁ THÀNH CÔNG</div>
+      <div id="modalDesc" class="modal-desc">Đạo hữu đã phá cảnh giới, bước lên tầng mây mới!</div>
+    </div>
+
+    <!-- Giao diện hiển thị trực tiếp (UI Layer) -->
+    <div class="ui-layer">
+      <!-- 1. Thanh tiêu đề & Trạng thái Live -->
+      <div class="header-bar">
+        <div class="title-box">
+          <div class="sect-icon">☯️</div>
+          <div class="sect-info">
+            <h1>CỬU TRỌNG THIÊN</h1>
+            <div class="subtitle">ĐỘNG PHỦ TU TIÊN TRỰC TUYẾN</div>
+          </div>
+        </div>
+
+        <div class="live-badge-group">
+          <div id="liveStatusPill" class="live-pill">
+            <span class="live-dot"></span>
+            <span id="liveStatusText">KẾT NỐI LIVE</span>
+          </div>
+          <div class="viewer-pill">
+            <span>👁️</span>
+            <span id="viewerCountVal">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Khu vực Săn Yêu Thú Thế Giới (World Boss) -->
+      <div id="bossBanner" class="boss-banner" title="Nhấp chuột để xuất chiêu trảm boss!">
+        <div class="boss-header">
+          <div class="boss-identity">
+            <div id="bossAvatar" class="boss-avatar">🦊</div>
+            <div class="boss-names">
+              <h2 id="bossName">Cửu Vĩ Hỏa Hồ</h2>
+              <div class="boss-tag">Yêu Thú Hoành Hành</div>
+            </div>
+          </div>
+          <div id="bossDefeatedCount" class="boss-count-badge">Đã trảm: 0</div>
+        </div>
+
+        <div class="boss-bar-wrap">
+          <div id="bossBarFill" class="boss-bar-fill" style="width: 100%;"></div>
+          <div id="bossBarText" class="boss-bar-text">5,000 / 5,000 HP (100%)</div>
+        </div>
+      </div>
+
+      <!-- 3. Khu Vực Tu Luyện Trung Tâm (Bát Quái & Đài Sen) -->
+      <div id="cultivationShrine" class="cultivation-shrine" title="Nhấp chuột để nhập định tu luyện!">
+        <!-- Vòng Bát Quái Trận Đồ xoay -->
+        <div class="bagua-ring">
+          <div class="bagua-inner"></div>
+        </div>
+
+        <!-- Phi kiếm lượn quanh -->
+        <div class="flying-swords">
+          <div class="sword sword-1">🗡️</div>
+          <div class="sword sword-2">⚔️</div>
+        </div>
+
+        <!-- Đạo nhân ngồi thiền trên đài sen -->
+        <div class="cultivator-wrapper">
+          <div class="lotus-aura"></div>
+          <div class="cultivator-avatar">🧘‍♂️</div>
+          <div class="lotus-throne">🪷</div>
+
+          <div class="realm-badge-wrap">
+            <div id="currentRealmText" class="realm-title-pill">Phàm Nhân</div>
+            <div id="currentRealmQuote" class="realm-quote">Hấp thu thiên địa linh khí để đắc đạo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Thống kê Linh Khí Toàn Tông Môn -->
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Linh Khí Thu Nạp</div>
+          <div id="metricTotalQi" class="metric-val">0</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Lượt Nhập Định</div>
+          <div id="metricTotalPrayers" class="metric-val">0</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Vượt Lôi Kiếp</div>
+          <div id="metricTotalBreakthroughs" class="metric-val">0</div>
+        </div>
+      </div>
+
+      <!-- 5. Bảng Thiên Kiêu & Truyền Âm Động Phủ -->
+      <div class="lower-deck">
+        <!-- Bảng xếp hạng Tu Vi (Thiên Kiêu Bảng) -->
+        <div class="deck-panel">
+          <div class="panel-header">
+            <div class="panel-title">🏆 Thiên Kiêu Bảng</div>
+          </div>
+          <div id="leaderboardList" class="panel-list">
+            <!-- Render động từ JS -->
+          </div>
+        </div>
+
+        <!-- Dòng sự kiện tương tác thời gian thực (Truyền Âm) -->
+        <div class="deck-panel">
+          <div class="panel-header">
+            <div class="panel-title">📜 Truyền Âm Nhập Mật</div>
+          </div>
+          <div id="eventsList" class="panel-list">
+            <!-- Render động từ JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Cẩm nang tương tác cho khán giả TikTok -->
+      <div class="commands-dock">
+        <div class="cmd-pill">
+          <span class="cmd-key">Thiền</span>
+          <span>+120 Tu Vi</span>
+        </div>
+        <div class="cmd-pill">
+          <span class="cmd-key">Săn Boss</span>
+          <span>Trảm Yêu</span>
+        </div>
+        <div class="cmd-pill">
+          <span class="cmd-key">Đột Phá</span>
+          <span>Lôi Kiếp</span>
+        </div>
+        <div class="cmd-pill">
+          <span class="cmd-key">Thả Tim</span>
+          <span>+Linh Khí</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/tutien-particles.js"></script>
+  <script src="/js/tutien-audio.js"></script>
+  <script src="/js/tutien-live.js"></script>
+</body>
+</html>

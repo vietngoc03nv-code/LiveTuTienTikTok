@@ -1,0 +1,15 @@
+{
+  "name": "tutien-tiktok-live-rpc",
+  "version": "1.0.0",
+  "description": "Tu Tiên Cửu Trọng Thiên — TikTok Live Interactive Xianxia Cultivation System (9:16 OBS)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "tiktok-live-connector": "^2.5.0",
+    "ws": "^8.18.0"
+  }
+}
